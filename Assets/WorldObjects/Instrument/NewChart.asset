@@ -1,0 +1,144 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6cd74d0b9102d3444806b540e3dc61bb, type: 3}
+  m_Name: NewChart
+  m_EditorClassIdentifier: Assembly-CSharp::RhythmChartData
+  title: Melody
+  song: {fileID: 0}
+  bpm: 90
+  offsetSeconds: 0
+  leadInSeconds: 2
+  notes:
+  - beat: 2
+    lengthBeats: 1
+  - beat: 4
+    lengthBeats: 0
+  - beat: 5
+    lengthBeats: 0
+  - beat: 6
+    lengthBeats: 0
+  - beat: 7
+    lengthBeats: 0
+  - beat: 8
+    lengthBeats: 2
+  - beat: 11
+    lengthBeats: 0
+  - beat: 11.5
+    lengthBeats: 0
+  - beat: 12.5
+    lengthBeats: 0
+  - beat: 13.5
+    lengthBeats: 1
+  - beat: 15.5
+    lengthBeats: 1
+  - beat: 17.5
+    lengthBeats: 2
+  - beat: 20.5
+    lengthBeats: 2
+  - beat: 23.5
+    lengthBeats: 0
+  - beat: 24.5
+    lengthBeats: 0
+  - beat: 25
+    lengthBeats: 0
+  - beat: 26
+    lengthBeats: 2
+  - beat: 29
+    lengthBeats: 0
+  - beat: 29.5
+    lengthBeats: 0
+  - beat: 30.5
+    lengthBeats: 0
+  - beat: 31.5
+    lengthBeats: 0
+  - beat: 32.5
+    lengthBeats: 0
+  - beat: 33.5
+    lengthBeats: 0
+  - beat: 34.5
+    lengthBeats: 0
+  - beat: 35.5
+    lengthBeats: 0
+  - beat: 36
+    lengthBeats: 0
+  - beat: 37
+    lengthBeats: 2
+  - beat: 40
+    lengthBeats: 2
+  - beat: 43
+    lengthBeats: 0
+  - beat: 43.5
+    lengthBeats: 0
+  - beat: 44.5
+    lengthBeats: 0
+  - beat: 45
+    lengthBeats: 0
+  - beat: 46
+    lengthBeats: 0
+  - beat: 47
+    lengthBeats: 1
+  - beat: 49
+    lengthBeats: 0
+  - beat: 49.5
+    lengthBeats: 0
+  - beat: 50.5
+    lengthBeats: 0
+  - beat: 51
+    lengthBeats: 0
+  - beat: 52
+    lengthBeats: 0
+  - beat: 53
+    lengthBeats: 0
+  - beat: 53.5
+    lengthBeats: 0
+  - beat: 54.5
+    lengthBeats: 0
+  - beat: 55
+    lengthBeats: 0
+  - beat: 56
+    lengthBeats: 0
+  - beat: 56.5
+    lengthBeats: 0
+  - beat: 57.5
+    lengthBeats: 0
+  - beat: 58.5
+    lengthBeats: 0
+  - beat: 59
+    lengthBeats: 0
+  - beat: 60
+    lengthBeats: 0
+  - beat: 60.5
+    lengthBeats: 0
+  - beat: 61.5
+    lengthBeats: 0
+  - beat: 62.5
+    lengthBeats: 2
+  - beat: 65.5
+    lengthBeats: 0
+  - beat: 66.5
+    lengthBeats: 0
+  - beat: 67.5
+    lengthBeats: 0
+  - beat: 68
+    lengthBeats: 0
+  - beat: 69
+    lengthBeats: 0
+  - beat: 69.5
+    lengthBeats: 0
+  - beat: 70.5
+    lengthBeats: 2
+  perfectWindow: 0.06
+  goodWindow: 0.15
+  holdForgiveness: 0.25
+  passAccuracy: 0.6
+  testDurationSeconds: 50
+  testSeed: 12345

@@ -9,6 +9,7 @@ using UnityEngine;
 public class MiniGameHost : MonoBehaviour
 {
     [SerializeField] private QuizUI quizUI;
+    [SerializeField] private RhythmGameUI rhythmUI;
 
     [Tooltip("Gameplay components to switch off while a mini game is open: PlayerController, PlayerInteractor, " +
              "the Cinemachine Input Axis Controller (otherwise the mouse still orbits the camera).")]
@@ -27,6 +28,16 @@ public class MiniGameHost : MonoBehaviour
 
         Enter();
         quizUI.Open(quiz, passed => StartCoroutine(Exit(passed, onFinished)));
+        return true;
+    }
+
+    /// <returns>false if another mini game is already open or the data is missing.</returns>
+    public bool StartRhythm(RhythmChartData chart, Action<bool> onFinished)
+    {
+        if (IsOpen || chart == null || rhythmUI == null) return false;
+
+        Enter();
+        rhythmUI.Open(chart, passed => StartCoroutine(Exit(passed, onFinished)));
         return true;
     }
 
