@@ -1,0 +1,149 @@
+{
+  "title": "Listening: The Boa Constrictor",
+  "questions": [
+    {
+      "instruction": "Listen and choose the meaning.",
+      "spokenText": "Moja rysovanka ne izobražala šapku.",
+      "options": [
+        "I showed my masterpiece to the grown-ups.",
+        "Here is a copy of the drawing.",
+        "My drawing was not a picture of a hat.",
+        "They always need to have things explained."
+      ],
+      "correctIndex": 2,
+      "explanation": "ne = not. šapka = hat."
+    },
+    {
+      "instruction": "Listen and choose the meaning.",
+      "spokenText": "Tuto jest kopija ovoj rysovanky.",
+      "options": [
+        "Here is a copy of the drawing.",
+        "It was a picture of a boa constrictor digesting an elephant.",
+        "My drawing was not a picture of a hat.",
+        "I drew the inside of the boa constrictor."
+      ],
+      "correctIndex": 0,
+      "explanation": "kopija = copy. rysovanka = drawing."
+    },
+    {
+      "instruction": "Listen and choose the meaning.",
+      "spokenText": "Zmija boa prěgoltaje svoju žrtvu v cělosti, bez žuvanja.",
+      "options": [
+        "The book was called True Stories from Nature.",
+        "After that it cannot move.",
+        "I once saw a magnificent picture in a book.",
+        "Boa constrictors swallow their prey whole, without chewing it."
+      ],
+      "correctIndex": 3,
+      "explanation": "bez = without. žrtva = prey (victim)."
+    },
+    {
+      "instruction": "Listen and choose the meaning.",
+      "spokenText": "Na obrazku byla zmija boa požirajuča dikogo zvěrja.",
+      "options": [
+        "It was a picture of a boa constrictor swallowing an animal.",
+        "It was a picture of a hat.",
+        "It was a picture of an elephant in the jungle.",
+        "It was a picture of a book about the forest."
+      ],
+      "correctIndex": 0,
+      "explanation": "obrazok = picture. zvěr = beast, animal."
+    },
+    {
+      "instruction": "Listen and choose the meaning.",
+      "spokenText": "Ona izobražala zmiju boa prěvarjajuču slona.",
+      "options": [
+        "It was a picture of a boa constrictor swallowing an animal.",
+        "It was a picture of a boa constrictor digesting an elephant.",
+        "It was a picture of a hat.",
+        "This is a copy of the drawing."
+      ],
+      "correctIndex": 1,
+      "explanation": "slona = elephant. prěvarjajuča = digesting."
+    },
+    {
+      "instruction": "Listen and choose the meaning.",
+      "spokenText": "Pokazal jesm svoje majstrovsko dělo dorastlym.",
+      "options": [
+        "I asked the grown-ups to draw a hat.",
+        "The grown-ups showed me a book.",
+        "I made a copy of my masterpiece.",
+        "I showed my masterpiece to the grown-ups."
+      ],
+      "correctIndex": 3,
+      "explanation": "dorastlym = to the grown-ups. majstrovsko dělo = masterpiece."
+    },
+    {
+      "instruction": "Listen and choose the meaning.",
+      "spokenText": "Straši? Začto kogokoli iměla by strašiti šapka?",
+      "options": [
+        "Frighten? Why should anyone be frightened by a hat?",
+        "Frighten? Why should anyone be frightened by a snake?",
+        "A hat? Why would anyone draw a boa constrictor?",
+        "Frighten? Everyone is afraid of an elephant."
+      ],
+      "correctIndex": 0,
+      "explanation": "šapka = hat, zmija = snake."
+    },
+    {
+      "instruction": "Listen and choose the meaning.",
+      "spokenText": "Togda narysoval jesm otvorjenu zmiju boa, da by dorastli mogli razuměti.",
+      "options": [
+        "Then I drew a hat, so that the grown-ups could be happy.",
+        "Then I read the book to the grown-ups.",
+        "Then I drew the boa constrictor opened up, so that the grown-ups could understand.",
+        "Then I showed the grown-ups my first drawing again."
+      ],
+      "correctIndex": 2,
+      "explanation": "razuměti = to understand."
+    },
+    {
+      "instruction": "Listen and choose the meaning.",
+      "spokenText": "Jim vsegda trěba vse objasniti.",
+      "options": [
+        "They never want to see a drawing.",
+        "They always sleep for six months.",
+        "They are afraid of everything.",
+        "They always need to have everything explained."
+      ],
+      "correctIndex": 3,
+      "explanation": "vsegda = always. objasniti = to explain."
+    },
+    {
+      "instruction": "Listen and choose the meaning.",
+      "spokenText": "Kogda mi bylo šest lět, uviděl jesm raz prělěpy obrazok v knigě o pralěsu.",
+      "options": [
+        "When I was six, I wrote a book about the jungle.",
+        "When I was six, I once saw a magnificent picture in a book about the primeval forest.",
+        "I was six months old when I saw a picture of a hat.",
+        "When I was six, the grown-ups showed me a picture of a boa constrictor."
+      ],
+      "correctIndex": 1,
+      "explanation": "lět = years. pralěs = primeval forest."
+    },
+    {
+      "instruction": "Listen and choose the meaning.",
+      "spokenText": "Potom ne može dvigati se i spi šest měsecev, dokolě ju ne prěvari.",
+      "options": [
+        "After that it moves quickly and eats for six months.",
+        "After that it sleeps for six years.",
+        "After that it cannot move and sleeps for six months, until it has digested it.",
+        "After that it can swallow an elephant."
+      ],
+      "correctIndex": 2,
+      "explanation": "měsecev = months. spi = sleeps."
+    },
+    {
+      "instruction": "Listen and choose the meaning.",
+      "spokenText": "Mnogo jesm togda razmysljal o prigodah v džungli.",
+      "options": [
+        "Then I drew a lot of pictures of the jungle.",
+        "Then I read many books about the jungle.",
+        "Then I was afraid of the jungle.",
+        "Then I thought a lot about adventures in the jungle."
+      ],
+      "correctIndex": 3,
+      "explanation": "mnogo = a lot. razmysljal = thought, pondered."
+    }
+  ]
+}

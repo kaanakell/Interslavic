@@ -77,6 +77,17 @@ public class QuizUI : MonoBehaviour
         session = new QuizSession(data);
 
         if (titleLabel != null) titleLabel.text = data.Title;
+
+        // The bar shows a 0..1 fraction, so force the slider to match. A slider left on "Whole Numbers"
+        // or with another Max Value would otherwise look frozen (0.08 rounds to 0).
+        if (progressBar != null)
+        {
+            progressBar.minValue = 0f;
+            progressBar.maxValue = 1f;
+            progressBar.wholeNumbers = false;
+            progressBar.interactable = false;
+            progressBar.value = 0f;
+        }
         root.SetActive(true);
 
         if (session.State == QuizState.Answering) ShowQuestion();
@@ -121,6 +132,7 @@ public class QuizUI : MonoBehaviour
     private void ShowResult()
     {
         feedbackPanel.SetActive(false);
+        resultPanel.transform.SetAsLastSibling(); // guarantee it draws on top of everything else
         resultPanel.SetActive(true);
         UpdateHeader();
 
@@ -184,6 +196,7 @@ public class QuizUI : MonoBehaviour
     private void OnContinue()
     {
         session.Next();
+        Debug.Log($"Quiz: state={session.State}, progress={session.Progress:0.00}, mistakes={session.Mistakes}"); // temporary
 
         if (session.State == QuizState.Answering) ShowQuestion();
         else ShowResult();

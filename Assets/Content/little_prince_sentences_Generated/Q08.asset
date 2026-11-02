@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 760e66267ad27494bb73e0258e248bdb, type: 3}
+  m_Name: Q08
+  m_EditorClassIdentifier: Assembly-CSharp::QuestionData
+  instruction: Listen and choose the meaning.
+  audioClip: {fileID: 0}
+  spokenText: "Togda narysoval jesm otvorjenu zmiju boa, da by dorastli mogli razum\u011Bti."
+  options:
+  - Then I drew a hat, so that the grown-ups could be happy.
+  - Then I read the book to the grown-ups.
+  - Then I drew the boa constrictor opened up, so that the grown-ups could understand.
+  - Then I showed the grown-ups my first drawing again.
+  correctIndex: 2
+  explanation: "razum\u011Bti = to understand."

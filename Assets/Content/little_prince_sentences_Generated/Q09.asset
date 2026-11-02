@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 760e66267ad27494bb73e0258e248bdb, type: 3}
+  m_Name: Q09
+  m_EditorClassIdentifier: Assembly-CSharp::QuestionData
+  instruction: Listen and choose the meaning.
+  audioClip: {fileID: 0}
+  spokenText: "Jim vsegda tr\u011Bba vse objasniti."
+  options:
+  - They never want to see a drawing.
+  - They always sleep for six months.
+  - They are afraid of everything.
+  - They always need to have everything explained.
+  correctIndex: 3
+  explanation: vsegda = always. objasniti = to explain.

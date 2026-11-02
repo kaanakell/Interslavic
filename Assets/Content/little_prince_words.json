@@ -1,0 +1,68 @@
+{
+  "title": "Words: The Boa Constrictor",
+  "questions": [
+    {
+      "instruction": "Listen and choose the meaning of the word.",
+      "spokenText": "zmija",
+      "options": ["snake", "elephant", "hat", "book"],
+      "correctIndex": 0,
+      "explanation": "zmija boa = boa constrictor."
+    },
+    {
+      "instruction": "Listen and choose the meaning of the word.",
+      "spokenText": "slon",
+      "options": ["snake", "drawing", "elephant", "forest"],
+      "correctIndex": 2,
+      "explanation": "In the story the elephant is inside the snake."
+    },
+    {
+      "instruction": "Listen and choose the meaning of the word.",
+      "spokenText": "šapka",
+      "options": ["book", "picture", "pencil", "hat"],
+      "correctIndex": 3,
+      "explanation": "The grown-ups thought the drawing was a hat."
+    },
+    {
+      "instruction": "Listen and choose the meaning of the word.",
+      "spokenText": "dorastli",
+      "options": ["animals", "grown-ups", "books", "years"],
+      "correctIndex": 1,
+      "explanation": "The word is built from rasti, to grow."
+    },
+    {
+      "instruction": "Listen and choose the meaning of the word.",
+      "spokenText": "straši",
+      "options": ["explains", "sleeps", "understands", "frightens"],
+      "correctIndex": 3,
+      "explanation": "Straši li ... = does it frighten ...?"
+    },
+    {
+      "instruction": "Listen and choose the meaning of the word.",
+      "spokenText": "objasniti",
+      "options": ["to explain", "to understand", "to frighten", "to swallow"],
+      "correctIndex": 0,
+      "explanation": "Grown-ups always need things explained."
+    },
+    {
+      "instruction": "Listen and choose the meaning of the word.",
+      "spokenText": "pralěs",
+      "options": ["pencil", "masterpiece", "primeval forest", "adventure"],
+      "correctIndex": 2,
+      "explanation": "o pralěsu = about the primeval forest."
+    },
+    {
+      "instruction": "Listen and choose the meaning of the word.",
+      "spokenText": "šest",
+      "options": ["two", "one", "hundred", "six"],
+      "correctIndex": 3,
+      "explanation": "šest lět = six years. šest měsecev = six months."
+    },
+    {
+      "instruction": "Listen and choose the meaning of the word.",
+      "spokenText": "měsec",
+      "options": ["year", "month", "day", "book"],
+      "correctIndex": 1,
+      "explanation": "měsecev = of months."
+    }
+  ]
+}
