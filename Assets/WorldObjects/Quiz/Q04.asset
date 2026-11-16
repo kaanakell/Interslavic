@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 760e66267ad27494bb73e0258e248bdb, type: 3}
+  m_Name: Q04
+  m_EditorClassIdentifier: Assembly-CSharp::QuestionData
+  instruction: Listen and choose the meaning.
+  audioClip: {fileID: 8300000, guid: d179299ee51d3a946a05dceeaef2169d, type: 3}
+  spokenText: What did the grownups see in the picture?
+  options:
+  - A hat
+  - An automobile.
+  - A snake.
+  - A lion
+  correctIndex: 0
+  explanation: "Za\u010Dto kogokoli im\u011Bla by stra\u0161iti \u0161apka?"

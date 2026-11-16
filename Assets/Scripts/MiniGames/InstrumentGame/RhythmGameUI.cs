@@ -95,6 +95,10 @@ public class RhythmGameUI : MonoBehaviour
     }
 
     private const float HitFlashDuration = 0.2f;
+    private const float AudioFadeSeconds = 1f;
+
+    private float baseVolume = 1f;          // the AudioSource's own volume, restored after a fade
+    private bool fadingOut;
 
     private RhythmChartData chart;
     private RhythmSession session;
@@ -132,6 +136,11 @@ public class RhythmGameUI : MonoBehaviour
         // otherwise the play button (e.g. South = UI Submit) could trigger it by accident. Mouse only.
         quitButton.navigation = new Navigation { mode = Navigation.Mode.None };
 
+        // The song is played by this script only: never loop it, never start it by itself.
+        baseVolume = audioSource.volume;
+        audioSource.loop = false;
+        audioSource.playOnAwake = false;
+
         if (notePrefab != null)
         {
             noteWidth = notePrefab.sizeDelta.x;
@@ -159,6 +168,7 @@ public class RhythmGameUI : MonoBehaviour
             return;
         }
 
+        StopAudio(); // start from silence, whatever was playing before
         chart = data;
         onFinished = finishedCallback;
         session = new RhythmSession(chart);
@@ -197,6 +207,10 @@ public class RhythmGameUI : MonoBehaviour
             audioSource.clip = chart.Song;
             audioSource.PlayScheduled(songStartDsp); // sample-accurate start on the same clock
         }
+        else
+        {
+            Debug.LogWarning("RhythmGameUI: the chart has no Song assigned, so the game runs silently.", chart);
+        }
 
         running = true;
         UpdateHud(SongTime);
@@ -205,6 +219,7 @@ public class RhythmGameUI : MonoBehaviour
     // ---- Per-frame loop ---------------------------------------------------
     private void Update()
     {
+        UpdateFade();
         if (!running) return;
 
         float songTime = SongTime;
@@ -461,7 +476,7 @@ public class RhythmGameUI : MonoBehaviour
     private void EndSong()
     {
         running = false;
-        audioSource.Stop();
+        fadingOut = true; // let the music fade out instead of cutting it off; UpdateFade stops it
         ClearNotes();
         ResetHitLine();
         playAction.action.Disable();
@@ -477,12 +492,36 @@ public class RhythmGameUI : MonoBehaviour
         if (EventSystem.current != null) EventSystem.current.SetSelectedGameObject(finishButton.gameObject);
     }
 
+    // ---- Audio ------------------------------------------------------------
+    // Stops playback (including a scheduled start that hasn't happened yet), clears the clip,
+    // and restores the volume in case a fade was running.
+    private void StopAudio()
+    {
+        if (audioSource == null) return;
+        fadingOut = false;
+        audioSource.Stop();
+        audioSource.clip = null;
+        audioSource.volume = baseVolume;
+    }
+
+    // Runs every frame, even after the song ended and the result panel is showing.
+    private void UpdateFade()
+    {
+        if (!fadingOut) return;
+
+        // Unscaled: Time.timeScale is 0 while a mini game is open.
+        audioSource.volume -= baseVolume * Time.unscaledDeltaTime / AudioFadeSeconds;
+        if (audioSource.volume <= 0f) StopAudio();
+    }
+
+    private void OnDisable() => StopAudio(); // safety net, e.g. if the canvas is disabled mid-song
+
     private void OnFinish() => Close(session.Passed);
 
     private void OnQuit()
     {
         running = false;
-        audioSource.Stop();
+        StopAudio();
         Close(false);
     }
 
@@ -490,6 +529,7 @@ public class RhythmGameUI : MonoBehaviour
     {
         session.NoteStarted -= OnNoteStarted;
         session.NoteResolved -= OnNoteResolved;
+        StopAudio();
         playAction.action.Disable();
         ClearNotes();
         ResetHitLine();

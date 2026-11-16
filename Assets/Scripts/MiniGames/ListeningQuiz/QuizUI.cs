@@ -67,12 +67,17 @@ public class QuizUI : MonoBehaviour
         finishButton.onClick.AddListener(OnFinish);
         listenButton.onClick.AddListener(PlayAudio);
 
+        // Question audio is a one-shot: never loop it, never start it by itself.
+        audioSource.loop = false;
+        audioSource.playOnAwake = false;
+
         root.SetActive(false);
     }
 
     // ---- Public entry point ----------------------------------------------
     public void Open(QuizData data, Action<bool> finishedCallback)
     {
+        StopAudio(); // start from silence, whatever was playing before
         onFinished = finishedCallback;
         session = new QuizSession(data);
 
@@ -97,6 +102,7 @@ public class QuizUI : MonoBehaviour
     // ---- Screens ----------------------------------------------------------
     private void ShowQuestion()
     {
+        StopAudio(); // the previous question's audio must not carry over, even if this one has none
         QuestionData q = session.Current;
         selectedIndex = -1;
 
@@ -132,6 +138,7 @@ public class QuizUI : MonoBehaviour
     private void ShowResult()
     {
         feedbackPanel.SetActive(false);
+        StopAudio();
         resultPanel.transform.SetAsLastSibling(); // guarantee it draws on top of everything else
         resultPanel.SetActive(true);
         UpdateHeader();
@@ -205,6 +212,7 @@ public class QuizUI : MonoBehaviour
     private void OnFinish()
     {
         bool passed = session.State == QuizState.Passed;
+        StopAudio();
         root.SetActive(false);
 
         Action<bool> callback = onFinished;
@@ -220,6 +228,16 @@ public class QuizUI : MonoBehaviour
         audioSource.clip = session.Current.AudioClip;
         audioSource.Play(); // audio keeps playing while Time.timeScale = 0
     }
+
+    // Stops playback and also clears the clip, so nothing can restart it later by accident.
+    private void StopAudio()
+    {
+        if (audioSource == null) return;
+        audioSource.Stop();
+        audioSource.clip = null;
+    }
+
+    private void OnDisable() => StopAudio(); // safety net, e.g. if the canvas is disabled mid-question
 
     private static void Focus(GameObject target)
     {

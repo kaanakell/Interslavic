@@ -1,0 +1,196 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6cd74d0b9102d3444806b540e3dc61bb, type: 3}
+  m_Name: NewChart 1
+  m_EditorClassIdentifier: Assembly-CSharp::RhythmChartData
+  title: Melody
+  song: {fileID: 8300000, guid: 516a6ebd441177d4f87593d63b42d259, type: 3}
+  bpm: 90.1
+  offsetSeconds: 0.03
+  leadInSeconds: 2
+  notes:
+  - beat: 0
+    lengthBeats: 0
+  - beat: 1.5
+    lengthBeats: 0
+  - beat: 2
+    lengthBeats: 0
+  - beat: 3
+    lengthBeats: 0
+  - beat: 3.5
+    lengthBeats: 0
+  - beat: 4.5
+    lengthBeats: 0
+  - beat: 5.5
+    lengthBeats: 0
+  - beat: 6
+    lengthBeats: 0
+  - beat: 6.5
+    lengthBeats: 0
+  - beat: 7.5
+    lengthBeats: 0
+  - beat: 8
+    lengthBeats: 0
+  - beat: 9
+    lengthBeats: 0
+  - beat: 9.5
+    lengthBeats: 0
+  - beat: 10
+    lengthBeats: 0
+  - beat: 11
+    lengthBeats: 0
+  - beat: 12
+    lengthBeats: 1
+  - beat: 14
+    lengthBeats: 0
+  - beat: 15
+    lengthBeats: 0
+  - beat: 15.5
+    lengthBeats: 0
+  - beat: 16
+    lengthBeats: 0
+  - beat: 17
+    lengthBeats: 0
+  - beat: 18
+    lengthBeats: 0
+  - beat: 18.5
+    lengthBeats: 0
+  - beat: 19
+    lengthBeats: 0
+  - beat: 19.5
+    lengthBeats: 0
+  - beat: 20
+    lengthBeats: 0
+  - beat: 21
+    lengthBeats: 0
+  - beat: 21.5
+    lengthBeats: 0
+  - beat: 22.5
+    lengthBeats: 0
+  - beat: 23
+    lengthBeats: 0
+  - beat: 23.5
+    lengthBeats: 2
+  - beat: 26.5
+    lengthBeats: 0
+  - beat: 27
+    lengthBeats: 0
+  - beat: 28
+    lengthBeats: 0
+  - beat: 28.5
+    lengthBeats: 0
+  - beat: 29.5
+    lengthBeats: 0
+  - beat: 30
+    lengthBeats: 0
+  - beat: 30.5
+    lengthBeats: 0
+  - beat: 31.5
+    lengthBeats: 0
+  - beat: 32
+    lengthBeats: 0
+  - beat: 32.5
+    lengthBeats: 0
+  - beat: 33
+    lengthBeats: 0
+  - beat: 33.5
+    lengthBeats: 0
+  - beat: 34.5
+    lengthBeats: 0
+  - beat: 35
+    lengthBeats: 0
+  - beat: 35.5
+    lengthBeats: 0
+  - beat: 36
+    lengthBeats: 0
+  - beat: 36.5
+    lengthBeats: 0
+  - beat: 37
+    lengthBeats: 0
+  - beat: 38.5
+    lengthBeats: 0
+  - beat: 39.5
+    lengthBeats: 0
+  - beat: 40
+    lengthBeats: 0
+  - beat: 40.5
+    lengthBeats: 0
+  - beat: 41
+    lengthBeats: 0
+  - beat: 41.5
+    lengthBeats: 0
+  - beat: 42
+    lengthBeats: 0
+  - beat: 42.5
+    lengthBeats: 0
+  - beat: 43
+    lengthBeats: 0
+  - beat: 43.5
+    lengthBeats: 0
+  - beat: 44
+    lengthBeats: 0
+  - beat: 45.5
+    lengthBeats: 0
+  - beat: 47
+    lengthBeats: 0
+  - beat: 47.5
+    lengthBeats: 0
+  - beat: 48
+    lengthBeats: 0
+  - beat: 48.5
+    lengthBeats: 0
+  - beat: 49.5
+    lengthBeats: 0
+  - beat: 50.5
+    lengthBeats: 0
+  - beat: 51
+    lengthBeats: 1
+  - beat: 53
+    lengthBeats: 0
+  - beat: 53.5
+    lengthBeats: 0
+  - beat: 54
+    lengthBeats: 0
+  - beat: 54.5
+    lengthBeats: 1.5
+  - beat: 57
+    lengthBeats: 0
+  - beat: 58
+    lengthBeats: 0
+  - beat: 58.5
+    lengthBeats: 0
+  - beat: 59
+    lengthBeats: 0
+  - beat: 59.5
+    lengthBeats: 0
+  - beat: 60.5
+    lengthBeats: 0
+  - beat: 61
+    lengthBeats: 0
+  - beat: 62
+    lengthBeats: 0
+  - beat: 62.5
+    lengthBeats: 0
+  - beat: 63.5
+    lengthBeats: 0
+  - beat: 64
+    lengthBeats: 0
+  - beat: 65
+    lengthBeats: 0
+  - beat: 66
+    lengthBeats: 0
+  perfectWindow: 0.06
+  goodWindow: 0.12
+  holdForgiveness: 0.25
+  passAccuracy: 0.6
+  testDurationSeconds: 50
+  testSeed: 12345
