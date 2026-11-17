@@ -12,9 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 760e66267ad27494bb73e0258e248bdb, type: 3}
   m_Name: Q01
   m_EditorClassIdentifier: Assembly-CSharp::QuestionData
-  instruction: Listen and choose the meaning.
+  instruction: How old was the narrator?
   audioClip: {fileID: 8300000, guid: 7ba5538732d02074ea08b48fe37e82a7, type: 3}
-  spokenText: How old was the narrator?
+  spokenText: 
   options:
   - He was six years old
   - He was ten years old

@@ -14,180 +14,116 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::RhythmChartData
   title: Melody
   song: {fileID: 8300000, guid: 516a6ebd441177d4f87593d63b42d259, type: 3}
-  bpm: 90.1
-  offsetSeconds: 0.03
+  bpm: 60
+  offsetSeconds: 0
   leadInSeconds: 2
   notes:
-  - beat: 0
+  - beat: 0.19
+    lengthBeats: 0.61
+  - beat: 0.95
     lengthBeats: 0
-  - beat: 1.5
+  - beat: 1.33
+    lengthBeats: 0.54
+  - beat: 2.03
     lengthBeats: 0
-  - beat: 2
+  - beat: 2.38
+    lengthBeats: 2.74
+  - beat: 5.27
+    lengthBeats: 0.64
+  - beat: 6.06
     lengthBeats: 0
-  - beat: 3
-    lengthBeats: 0
-  - beat: 3.5
-    lengthBeats: 0
-  - beat: 4.5
-    lengthBeats: 0
-  - beat: 5.5
-    lengthBeats: 0
-  - beat: 6
-    lengthBeats: 0
-  - beat: 6.5
-    lengthBeats: 0
-  - beat: 7.5
+  - beat: 6.58
+    lengthBeats: 0.74
+  - beat: 7.52
     lengthBeats: 0
   - beat: 8
+    lengthBeats: 3.14
+  - beat: 11.29
+    lengthBeats: 0.59
+  - beat: 12.03
+    lengthBeats: 0.72
+  - beat: 12.9
     lengthBeats: 0
-  - beat: 9
+  - beat: 13.26
+    lengthBeats: 0.67
+  - beat: 14.09
     lengthBeats: 0
-  - beat: 9.5
+  - beat: 14.49
     lengthBeats: 0
-  - beat: 10
+  - beat: 14.9
     lengthBeats: 0
-  - beat: 11
+  - beat: 15.18
     lengthBeats: 0
-  - beat: 12
-    lengthBeats: 1
-  - beat: 14
+  - beat: 15.53
     lengthBeats: 0
-  - beat: 15
+  - beat: 15.83
+    lengthBeats: 1.14
+  - beat: 17.12
+    lengthBeats: 0.71
+  - beat: 18.74
     lengthBeats: 0
-  - beat: 15.5
+  - beat: 19.03
     lengthBeats: 0
-  - beat: 16
+  - beat: 19.53
     lengthBeats: 0
-  - beat: 17
+  - beat: 20.02
     lengthBeats: 0
-  - beat: 18
+  - beat: 20.44
     lengthBeats: 0
-  - beat: 18.5
+  - beat: 20.91
     lengthBeats: 0
-  - beat: 19
+  - beat: 21.2
     lengthBeats: 0
-  - beat: 19.5
+  - beat: 21.61
     lengthBeats: 0
-  - beat: 20
+  - beat: 22.01
     lengthBeats: 0
-  - beat: 21
+  - beat: 22.39
+    lengthBeats: 0.95
+  - beat: 23.49
+    lengthBeats: 1.92
+  - beat: 25.56
+    lengthBeats: 0.56
+  - beat: 26.31
     lengthBeats: 0
-  - beat: 21.5
+  - beat: 26.79
     lengthBeats: 0
-  - beat: 22.5
+  - beat: 27.18
     lengthBeats: 0
-  - beat: 23
+  - beat: 27.55
     lengthBeats: 0
-  - beat: 23.5
-    lengthBeats: 2
-  - beat: 26.5
+  - beat: 27.96
     lengthBeats: 0
-  - beat: 27
+  - beat: 28.46
+    lengthBeats: 0.65
+  - beat: 29.26
+    lengthBeats: 1.02
+  - beat: 31.38
+    lengthBeats: 0.43
+  - beat: 31.96
+    lengthBeats: 0.73
+  - beat: 32.87
+    lengthBeats: 0.55
+  - beat: 33.57
     lengthBeats: 0
-  - beat: 28
+  - beat: 34.04
+    lengthBeats: 1.12
+  - beat: 35.31
     lengthBeats: 0
-  - beat: 28.5
+  - beat: 35.67
     lengthBeats: 0
-  - beat: 29.5
+  - beat: 36.01
+    lengthBeats: 2.48
+  - beat: 38.64
+    lengthBeats: 0.62
+  - beat: 39.41
+    lengthBeats: 0.7
+  - beat: 40.28
     lengthBeats: 0
-  - beat: 30
-    lengthBeats: 0
-  - beat: 30.5
-    lengthBeats: 0
-  - beat: 31.5
-    lengthBeats: 0
-  - beat: 32
-    lengthBeats: 0
-  - beat: 32.5
-    lengthBeats: 0
-  - beat: 33
-    lengthBeats: 0
-  - beat: 33.5
-    lengthBeats: 0
-  - beat: 34.5
-    lengthBeats: 0
-  - beat: 35
-    lengthBeats: 0
-  - beat: 35.5
-    lengthBeats: 0
-  - beat: 36
-    lengthBeats: 0
-  - beat: 36.5
-    lengthBeats: 0
-  - beat: 37
-    lengthBeats: 0
-  - beat: 38.5
-    lengthBeats: 0
-  - beat: 39.5
-    lengthBeats: 0
-  - beat: 40
-    lengthBeats: 0
-  - beat: 40.5
-    lengthBeats: 0
-  - beat: 41
-    lengthBeats: 0
-  - beat: 41.5
-    lengthBeats: 0
-  - beat: 42
-    lengthBeats: 0
-  - beat: 42.5
-    lengthBeats: 0
-  - beat: 43
-    lengthBeats: 0
-  - beat: 43.5
-    lengthBeats: 0
-  - beat: 44
-    lengthBeats: 0
-  - beat: 45.5
-    lengthBeats: 0
-  - beat: 47
-    lengthBeats: 0
-  - beat: 47.5
-    lengthBeats: 0
-  - beat: 48
-    lengthBeats: 0
-  - beat: 48.5
-    lengthBeats: 0
-  - beat: 49.5
-    lengthBeats: 0
-  - beat: 50.5
-    lengthBeats: 0
-  - beat: 51
-    lengthBeats: 1
-  - beat: 53
-    lengthBeats: 0
-  - beat: 53.5
-    lengthBeats: 0
-  - beat: 54
-    lengthBeats: 0
-  - beat: 54.5
-    lengthBeats: 1.5
-  - beat: 57
-    lengthBeats: 0
-  - beat: 58
-    lengthBeats: 0
-  - beat: 58.5
-    lengthBeats: 0
-  - beat: 59
-    lengthBeats: 0
-  - beat: 59.5
-    lengthBeats: 0
-  - beat: 60.5
-    lengthBeats: 0
-  - beat: 61
-    lengthBeats: 0
-  - beat: 62
-    lengthBeats: 0
-  - beat: 62.5
-    lengthBeats: 0
-  - beat: 63.5
-    lengthBeats: 0
-  - beat: 64
-    lengthBeats: 0
-  - beat: 65
-    lengthBeats: 0
-  - beat: 66
-    lengthBeats: 0
+  - beat: 40.74
+    lengthBeats: 2.97
+  - beat: 43.86
+    lengthBeats: 0.55
   perfectWindow: 0.06
   goodWindow: 0.12
   holdForgiveness: 0.25

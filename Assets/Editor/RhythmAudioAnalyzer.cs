@@ -37,6 +37,17 @@ public class NoteGenSettings
     public float MaxSeconds = 60f;         // only generate notes for this much of the song
 }
 
+/// <summary>Knobs for "free rhythm" mode (voice, bowed or sustained sounds with no steady beat).</summary>
+[Serializable]
+public class FreeNoteSettings
+{
+    public float GapDepthDb = 6f;          // how far the loudness must dip below its normal level to split two notes
+    public float MinGapSeconds = 0.30f;    // never start two notes closer than this
+    public float MinHoldSeconds = 0.40f;   // a sound shorter than this becomes a tap
+    public float ReleaseGapSeconds = 0.15f; // time kept free between the end of a hold and the next note
+    public float MaxSeconds = 60f;         // only generate notes for this much of the song
+}
+
 /// <summary>
 /// Finds the tempo and beat position of a clip, and proposes notes from where hits start.
 ///
@@ -335,6 +346,123 @@ public static class RhythmAudioAnalyzer
             }
 
             result.Add(new ChartNote { beat = kept[i].Beat, lengthBeats = length });
+        }
+
+        return result;
+    }
+
+    // ---- Free rhythm (no tempo) ------------------------------------------
+    /// <summary>
+    /// For sounds that do not follow a beat, such as a sung line over a bowed string. Instead of looking for
+    /// sudden loud hits, it looks for the short DIPS in loudness between sounds (word gaps, breaths, bow changes).
+    /// Each stretch of continuous sound between two dips becomes one note: long ones are holds, short ones are taps.
+    ///
+    /// Times are returned in SECONDS (ChartNote.beat = seconds, ChartNote.lengthBeats = seconds). The tool stores
+    /// them in a chart with BPM 60 and offset 0, where one "beat" is exactly one second.
+    /// </summary>
+    public static List<ChartNote> GenerateFreeNotes(AudioAnalysis a, FreeNoteSettings s)
+    {
+        var result = new List<ChartNote>();
+        if (a == null) return result;
+
+        int frames = Mathf.Min(a.Energy.Length, Mathf.RoundToInt(s.MaxSeconds * FramesPerSecond));
+        if (frames < 50) return result;
+
+        // 1) Loudness in decibels, lightly smoothed (5 frames = 50 ms) so tiny wobbles do not count as dips.
+        var db = new float[frames];
+        for (int f = 0; f < frames; f++) db[f] = 20f * Mathf.Log10(a.Energy[f] + 1e-6f);
+
+        const int radius = 2;
+        var smooth = new float[frames];
+        for (int f = 0; f < frames; f++)
+        {
+            float sum = 0f;
+            for (int d = -radius; d <= radius; d++) sum += db[Mathf.Clamp(f + d, 0, frames - 1)];
+            smooth[f] = sum / (2 * radius + 1);
+        }
+
+        // 2) The normal level around each frame: the 70th percentile of the loudness within +/- 1 second.
+        //    Comparing with this (not with a fixed number) makes it work for quiet and loud recordings alike.
+        const int window = FramesPerSecond;
+        var local = new float[frames];
+        var scratch = new float[2 * window + 1];
+        for (int f = 0; f < frames; f++)
+        {
+            int from = Mathf.Max(0, f - window);
+            int to = Mathf.Min(frames - 1, f + window);
+            int count = to - from + 1;
+            Array.Copy(smooth, from, scratch, 0, count);
+            Array.Sort(scratch, 0, count);
+            local[f] = scratch[(int)(0.7f * (count - 1))];
+        }
+
+        // 3) Dips: local minima that are at least GapDepthDb below the normal level.
+        var candidates = new List<int>();
+        for (int f = 2; f < frames - 2; f++)
+        {
+            float r = smooth[f] - local[f];
+            if (r > -s.GapDepthDb) continue;
+            if (r <= smooth[f - 1] - local[f - 1] && r <= smooth[f - 2] - local[f - 2] &&
+                r < smooth[f + 1] - local[f + 1] && r < smooth[f + 2] - local[f + 2])
+                candidates.Add(f);
+        }
+
+        // Keep the deepest dips first; drop any that is closer than the minimum gap to one already kept.
+        candidates.Sort((x, y) => (smooth[x] - local[x]).CompareTo(smooth[y] - local[y]));
+        int minDistance = Mathf.Max(1, Mathf.RoundToInt(s.MinGapSeconds * FramesPerSecond));
+        var dips = new List<int>();
+        foreach (int c in candidates)
+        {
+            bool tooClose = false;
+            foreach (int kept in dips)
+                if (Mathf.Abs(c - kept) < minDistance) { tooClose = true; break; }
+            if (!tooClose) dips.Add(c);
+        }
+        dips.Sort();
+
+        // 4) Where does the sound actually stop and restart around each dip? Walk outward from the bottom of the
+        //    dip until the loudness is back halfway up to the normal level.
+        var starts = new List<int>();   // a note starts where the sound resumes
+        var ends = new List<int>();     // ... and ends where the next dip begins
+
+        // The first and last note are bounded by the start and end of the audible sound (30 dB below the loud parts).
+        var sorted = (float[])smooth.Clone();
+        Array.Sort(sorted);
+        float floor = sorted[(int)(0.9f * (frames - 1))] - 30f;
+        int firstActive = -1, lastActive = -1;
+        for (int f = 0; f < frames; f++)
+            if (smooth[f] > floor) { if (firstActive < 0) firstActive = f; lastActive = f; }
+        if (firstActive < 0) return result;
+
+        starts.Add(firstActive);
+        foreach (int d in dips)
+        {
+            float mid = local[d] + (smooth[d] - local[d]) * 0.5f;
+            int fall = d;
+            while (fall > 0 && smooth[fall] < mid) fall--;
+            int rise = d;
+            while (rise < frames - 1 && smooth[rise] < mid) rise++;
+            ends.Add(fall);
+            starts.Add(rise);
+        }
+        ends.Add(lastActive);
+
+        // 5) One note per stretch of sound. A hold ends a little early so the player has time to let go.
+        for (int k = 0; k < starts.Count; k++)
+        {
+            if (ends[k] <= starts[k]) continue;
+
+            float startTime = starts[k] / (float)FramesPerSecond;
+            float endTime = ends[k] / (float)FramesPerSecond;
+            if (k + 1 < starts.Count)
+                endTime = Mathf.Min(endTime, starts[k + 1] / (float)FramesPerSecond - s.ReleaseGapSeconds);
+
+            float length = endTime - startTime;
+            result.Add(new ChartNote
+            {
+                beat = Mathf.Round(startTime * 1000f) / 1000f,
+                lengthBeats = length >= s.MinHoldSeconds ? Mathf.Round(length * 1000f) / 1000f : 0f
+            });
         }
 
         return result;

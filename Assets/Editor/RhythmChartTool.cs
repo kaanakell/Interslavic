@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.IO;
 using UnityEditor;
@@ -8,13 +9,22 @@ using UnityEngine;
 /// <summary>
 /// Window for building a rhythm chart from a piece of music:
 ///   Interslavic > Rhythm Chart Tool                 (open the window)
-///   right-click an AudioClip > Interslavic > Create Rhythm Chart From Clip   (one-click)
-/// It detects the tempo, shows the beat grid over the waveform so you can check it,
-/// and can generate taps and holds from the music. Everything can be adjusted by hand before it is written
-/// into the RhythmChartData asset.
+///   right-click an AudioClip > Interslavic > Create Rhythm Chart From Clip                  (one-click, steady beat)
+///   right-click an AudioClip > Interslavic > Create Rhythm Chart From Clip (Free Rhythm)    (one-click, voice / long notes)
+///
+/// Two modes:
+///   Steady beat:   detects the tempo, shows the beat grid over the waveform so you can check it,
+///                  and generates taps and holds on that grid.
+///   Free rhythm:   for singing and bowed or sustained sounds with no steady beat. No tempo is used; notes follow the
+///                  pauses in the sound and are stored in seconds (the chart gets BPM 60 and offset 0).
+/// Everything can be adjusted before it is written into the RhythmChartData asset.
 /// </summary>
 public class RhythmChartTool : EditorWindow
 {
+    private enum Mode { SteadyBeat, FreeRhythm }
+
+    [SerializeField] private Mode mode = Mode.SteadyBeat;
+    [SerializeField] private FreeNoteSettings freeSettings = new FreeNoteSettings();
     [SerializeField] private RhythmChartData chart;
     [SerializeField] private AudioClip clip;
     [SerializeField] private float bpm = 90f;
@@ -38,9 +48,18 @@ public class RhythmChartTool : EditorWindow
     [MenuItem("Assets/Interslavic/Create Rhythm Chart From Clip", true)]
     private static bool CanCreateFromClip() => Selection.activeObject is AudioClip;
 
-    // One click: new chart asset next to the clip, tempo detected, notes generated with default settings.
+    [MenuItem("Assets/Interslavic/Create Rhythm Chart From Clip (Free Rhythm)", true)]
+    private static bool CanCreateFromClipFree() => Selection.activeObject is AudioClip;
+
+    // One click, steady beat: new chart asset next to the clip, tempo detected, notes generated with default settings.
     [MenuItem("Assets/Interslavic/Create Rhythm Chart From Clip")]
-    private static void CreateFromClip()
+    private static void CreateFromClip() => CreateChartFromSelection(Mode.SteadyBeat);
+
+    // One click, free rhythm: the same, but notes follow the pauses in the sound instead of a beat grid.
+    [MenuItem("Assets/Interslavic/Create Rhythm Chart From Clip (Free Rhythm)")]
+    private static void CreateFromClipFree() => CreateChartFromSelection(Mode.FreeRhythm);
+
+    private static void CreateChartFromSelection(Mode chartMode)
     {
         var audio = (AudioClip)Selection.activeObject;
         string clipPath = AssetDatabase.GetAssetPath(audio);
@@ -53,6 +72,7 @@ public class RhythmChartTool : EditorWindow
         var window = GetWindow<RhythmChartTool>("Rhythm Chart Tool");
         window.chart = newChart;
         window.clip = audio;
+        window.mode = chartMode;
         window.RunAnalysis();
 
         if (window.analysis != null)
@@ -71,12 +91,18 @@ public class RhythmChartTool : EditorWindow
         scroll = EditorGUILayout.BeginScrollView(scroll);
 
         DrawSource();
+        DrawMode();
 
         if (analysis == null)
         {
             EditorGUILayout.HelpBox(
                 "Pick an audio clip and press Analyze. The analysis is not kept when scripts recompile, so press Analyze again if this message comes back.",
                 MessageType.Info);
+        }
+        else if (mode == Mode.FreeRhythm)
+        {
+            DrawWaveform();
+            DrawFreeGeneration();
         }
         else
         {
@@ -89,6 +115,173 @@ public class RhythmChartTool : EditorWindow
 
         EditorGUILayout.EndScrollView();
     }
+
+
+    private void DrawFreeGeneration()
+    {
+        EditorGUILayout.Space();
+        EditorGUILayout.LabelField("Free Rhythm Notes", EditorStyles.boldLabel);
+
+        EditorGUILayout.HelpBox(
+            "This mode detects continuous sounds separated by pauses. " +
+            "Long sounds become holds, while short sounds become taps. " +
+            "All note positions and durations are stored in seconds.",
+            MessageType.Info);
+
+        // Gap detection settings
+        EditorGUILayout.LabelField("Detection Settings", EditorStyles.boldLabel);
+
+        freeSettings.GapDepthDb = Mathf.Max(
+            1f,
+            EditorGUILayout.FloatField(
+                new GUIContent(
+                    "Gap Depth (dB)",
+                    "How far the loudness must drop below its normal level to split two notes. Lower values detect smaller pauses."
+                ),
+                freeSettings.GapDepthDb
+            )
+        );
+
+        freeSettings.MinGapSeconds = Mathf.Max(
+            0.05f,
+            EditorGUILayout.FloatField(
+                new GUIContent(
+                    "Minimum Gap (s)",
+                    "Minimum distance between detected gaps. Helps prevent duplicate note boundaries."
+                ),
+                freeSettings.MinGapSeconds
+            )
+        );
+
+        EditorGUILayout.Space();
+        EditorGUILayout.LabelField("Note Settings", EditorStyles.boldLabel);
+
+        freeSettings.MinHoldSeconds = Mathf.Max(
+            0.05f,
+            EditorGUILayout.FloatField(
+                new GUIContent(
+                    "Minimum Hold (s)",
+                    "Sounds shorter than this duration will become tap notes."
+                ),
+                freeSettings.MinHoldSeconds
+            )
+        );
+
+        freeSettings.ReleaseGapSeconds = Mathf.Max(
+            0f,
+            EditorGUILayout.FloatField(
+                new GUIContent(
+                    "Release Gap (s)",
+                    "Time left between the end of a hold and the beginning of the next note."
+                ),
+                freeSettings.ReleaseGapSeconds
+            )
+        );
+
+        freeSettings.MaxSeconds = Mathf.Max(
+            5f,
+            EditorGUILayout.FloatField(
+                "Max Song Length (s)",
+                freeSettings.MaxSeconds
+            )
+        );
+
+        if (analysis.Duration > freeSettings.MaxSeconds + 1f)
+        {
+            EditorGUILayout.HelpBox(
+                $"The clip is {analysis.Duration:0} s. " +
+                $"Notes are only generated for the first {freeSettings.MaxSeconds:0} s, " +
+                "but the game plays the whole clip, so trim the audio to match.",
+                MessageType.Warning
+            );
+        }
+
+        EditorGUILayout.Space();
+
+        // Preview generation
+        if (GUILayout.Button("Generate Free Rhythm Preview"))
+        {
+            GenerateFreePreview();
+        }
+
+        if (previewNotes.Count > 0)
+        {
+            int holds = 0;
+
+            foreach (ChartNote n in previewNotes)
+            {
+                if (n.lengthBeats > 0f)
+                    holds++;
+            }
+
+            EditorGUILayout.LabelField(
+                "Preview",
+                $"{previewNotes.Count} notes ({holds} holds)"
+            );
+        }
+
+        EditorGUILayout.Space();
+
+        // Apply generated notes
+        if (GUILayout.Button("Apply Notes to Chart"))
+        {
+            if (EnsureChart())
+            {
+                if (previewNotes.Count == 0)
+                    GenerateFreePreview();
+
+                if (previewNotes.Count > 0)
+                {
+                    // Free rhythm uses one second per beat.
+                    bpm = 60f;
+                    offsetSeconds = 0f;
+
+                    ApplyToChart(true);
+                }
+            }
+        }
+    }
+
+
+    private void GenerateFreePreview()
+    {
+        previewNotes.Clear();
+
+        if (analysis == null)
+        {
+            message = "Analyze an audio clip before generating notes.";
+            messageType = MessageType.Warning;
+            return;
+        }
+
+        previewNotes.AddRange(
+            RhythmAudioAnalyzer.GenerateFreeNotes(analysis, freeSettings)
+        );
+
+        if (previewNotes.Count == 0)
+        {
+            message = "No notes found. Try lowering Gap Depth or Minimum Gap.";
+            messageType = MessageType.Warning;
+        }
+        else
+        {
+            int holds = 0;
+
+            foreach (ChartNote n in previewNotes)
+            {
+                if (n.lengthBeats > 0f)
+                    holds++;
+            }
+
+            message =
+                $"Generated {previewNotes.Count} free rhythm notes ({holds} holds). " +
+                "Note positions and durations are stored in seconds. " +
+                "Nothing is written to the chart until you press Apply.";
+
+            messageType = MessageType.Info;
+        }
+    }
+
 
     private void DrawSource()
     {
@@ -104,6 +297,27 @@ public class RhythmChartTool : EditorWindow
         {
             if (GUILayout.Button("Analyze audio")) RunAnalysis();
         }
+    }
+
+    private void DrawMode()
+    {
+        EditorGUILayout.Space();
+
+        EditorGUI.BeginChangeCheck();
+        int selected = GUILayout.Toolbar((int)mode, new[] { "Steady beat (BPM)", "Free rhythm (voice / long notes)" });
+        if (EditorGUI.EndChangeCheck())
+        {
+            mode = (Mode)selected;
+            previewNotes.Clear(); // notes made for the other mode would not fit
+            message = null;
+        }
+
+        EditorGUILayout.HelpBox(
+            mode == Mode.FreeRhythm
+                ? "For singing and bowed or sustained sounds with no steady beat. No BPM is used: notes follow the pauses and changes " +
+                  "in the sound and are stored in seconds (the chart gets BPM 60 and offset 0, so 1 'beat' = 1 second)."
+                : "For music with a steady pulse (drums, plucked or rhythmic playing). Notes are placed on a beat grid.",
+            MessageType.None);
     }
 
     private void DrawTempo()
@@ -143,7 +357,11 @@ public class RhythmChartTool : EditorWindow
     {
         EditorGUILayout.Space();
         EditorGUILayout.LabelField("Waveform check", EditorStyles.boldLabel);
-        EditorGUILayout.LabelField("Grey = loudness, orange = detected hits, white lines = beats (brighter = every 4th). Cyan = generated notes.", EditorStyles.miniLabel);
+        EditorGUILayout.LabelField(
+            mode == Mode.FreeRhythm
+                ? "Grey = loudness, orange = detected hits. Cyan = generated notes (a long bar is a hold). Notes should start where the sound resumes after a dip."
+                : "Grey = loudness, orange = detected hits, white lines = beats (brighter = every 4th). Cyan = generated notes.",
+            EditorStyles.miniLabel);
 
         viewLength = EditorGUILayout.Slider("Visible seconds", viewLength, 4f, 40f);
         float maxStart = Mathf.Max(0f, analysis.Duration - viewLength);
@@ -189,16 +407,24 @@ public class RhythmChartTool : EditorWindow
                 EditorGUI.DrawRect(new Rect(rect.x + x, rect.yMax - onsetHeight, 1f, onsetHeight), new Color(1f, 0.55f, 0.1f, 0.6f));
         }
 
-        // Beat grid. If the grid lines sit on the orange spikes, the tempo and offset are right.
-        float beatSeconds = 60f / bpm;
+        // Free rhythm stores seconds as beats (60 BPM, no offset), so notes convert with these values and no grid is drawn.
+        bool free = mode == Mode.FreeRhythm;
+        float gridBpm = free ? 60f : bpm;
+        float gridOffset = free ? 0f : offsetSeconds;
+        float beatSeconds = 60f / gridBpm;
         float viewEnd = viewStart + viewLength;
-        int firstBeat = Mathf.Max(0, Mathf.CeilToInt((viewStart - offsetSeconds) / beatSeconds));
-        for (int b = firstBeat; ; b++)
+
+        // Beat grid. If the grid lines sit on the orange spikes, the tempo and offset are right.
+        if (!free)
         {
-            float t = offsetSeconds + b * beatSeconds;
-            if (t > viewEnd) break;
-            float x = rect.x + (t - viewStart) / viewLength * rect.width;
-            EditorGUI.DrawRect(new Rect(x, rect.y, 1f, rect.height), new Color(1f, 1f, 1f, b % 4 == 0 ? 0.9f : 0.3f));
+            int firstBeat = Mathf.Max(0, Mathf.CeilToInt((viewStart - gridOffset) / beatSeconds));
+            for (int b = firstBeat; ; b++)
+            {
+                float t = gridOffset + b * beatSeconds;
+                if (t > viewEnd) break;
+                float x = rect.x + (t - viewStart) / viewLength * rect.width;
+                EditorGUI.DrawRect(new Rect(x, rect.y, 1f, rect.height), new Color(1f, 1f, 1f, b % 4 == 0 ? 0.9f : 0.3f));
+            }
         }
 
         // Notes: the generated preview, or what is already in the chart if nothing was generated yet.
@@ -212,7 +438,7 @@ public class RhythmChartTool : EditorWindow
 
         foreach (ChartNote n in notes)
         {
-            float t = offsetSeconds + n.beat * beatSeconds;
+            float t = gridOffset + n.beat * beatSeconds;
             float tEnd = t + n.lengthBeats * beatSeconds;
             if (tEnd < viewStart || t > viewEnd) continue;
 

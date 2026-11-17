@@ -12,9 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 760e66267ad27494bb73e0258e248bdb, type: 3}
   m_Name: Q02
   m_EditorClassIdentifier: Assembly-CSharp::QuestionData
-  instruction: Listen and choose the meaning.
+  instruction: What was on the cover of the book?
   audioClip: {fileID: 8300000, guid: d98da22395363f745aa1fc03cd4269ba, type: 3}
-  spokenText: What was on the cover of the book?
+  spokenText: 
   options:
   - An elephant.
   - A hat.

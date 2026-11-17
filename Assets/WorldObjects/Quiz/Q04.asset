@@ -12,9 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 760e66267ad27494bb73e0258e248bdb, type: 3}
   m_Name: Q04
   m_EditorClassIdentifier: Assembly-CSharp::QuestionData
-  instruction: Listen and choose the meaning.
-  audioClip: {fileID: 8300000, guid: d179299ee51d3a946a05dceeaef2169d, type: 3}
-  spokenText: What did the grownups see in the picture?
+  instruction: What did the grownups see in the picture?
+  audioClip: {fileID: 8300000, guid: b5791225bdd499e44b461a9ff6047e74, type: 3}
+  spokenText: 
   options:
   - A hat
   - An automobile.

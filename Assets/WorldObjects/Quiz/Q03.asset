@@ -12,9 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 760e66267ad27494bb73e0258e248bdb, type: 3}
   m_Name: Q03
   m_EditorClassIdentifier: Assembly-CSharp::QuestionData
-  instruction: Listen and choose the meaning.
+  instruction: Why does the boa constrictor sleep for six months?
   audioClip: {fileID: 8300000, guid: b6ba230fd4417274ea5acc17a8fa5f7f, type: 3}
-  spokenText: Why does the boa constrictor sleep for six months?
+  spokenText: 
   options:
   - 'It ate everything, and must wait for more animals to come. '
   - 'It is lazy. '
